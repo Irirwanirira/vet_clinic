@@ -44,9 +44,9 @@ UPDATE animals SET escape_attempts =2 WHERE id = 2;
 UPDATE animals SET names = 'Gabumon' WHERE weight_kg = 8;
 
 
--- Querries_updates
+-- Create column called species
 
-ALTER TABLE animals ADD species TEXT;
+ALTER TABLE animals ADD species VARCHAR(40);
 
 -- add DATA
 
@@ -73,6 +73,11 @@ VALUES (11,' Ditto', '2022-04-014', '4' , TRUE, '22');
 
 
 
+--  Start the transaction for the clinic
+
+BEGIN;
+UPDATE animals SET species = 'unspecified';
+ROLLBACK;
 
 
 
