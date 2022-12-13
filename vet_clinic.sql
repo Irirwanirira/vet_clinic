@@ -27,3 +27,12 @@ INSERT INTO animals (id, names, date_of_birth, escape_attempts, neutered, weight
 VALUES (4,'Devimon', '2017-05-12', '5' , TRUE, '11');
 
 -- Quest Querries,
+
+SELECT * from animals where names LIKE '%mon';
+SELECT names from animals where date_of_birth  BETWEEN '2016-01-01' AND '2019-12-31';
+SELECT names from animals where escape_attempts < 3 AND neutered =true;
+SELECT date_of_birth from animals where names='Agumon' OR names='Pikachu';
+SELECT names,escape_attempts from animals where weight_kg > 10.5;
+SELECT * from animals where neutered =true;
+SELECT * from animals where names!='Gabumon.' ;
+SELECT * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
