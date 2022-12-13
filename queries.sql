@@ -25,3 +25,29 @@ SELECT * from animals where names!='Gabumon.' ;
 -- Find all animals with a weight between 10.4kg and 17.3kg (including the animals with the weights that equals precisely 10.4kg or 17.3kg)
 SELECT * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
 
+--  Start the transaction for the clinic
+
+-- Inside a transaction update the animals table by setting the species column to unspecified.
+BEGIN;
+UPDATE animals SET species = 'unspecified';
+ROLLBACK;
+
+-- Update the animals table by setting the species column to digimon for all animals that have a name ending in mon.
+-- Update the animals table by setting the species column to pokemon for all animals that don't have species already set.
+BEGIN;
+UPDATE animals SET species = 'digimon' WHERE names LIKE '%mon';
+UPDATE animals SET species = 'pokemon' WHERE species IS NULL ;
+COMMIT;
+
+
+-- delete all records in the animals table, then roll back the transaction.
+-- After the rollback verify if all records in the animals table still exists. 
+BEGIN;
+DELETE FROM animals;
+ROLLBACK;
+
+
+-- Delete all animals born after Jan 1st, 2022.
+
+
+
