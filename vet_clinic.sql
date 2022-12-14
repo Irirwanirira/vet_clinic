@@ -26,27 +26,20 @@ VALUES (' Pikachu', '2021-01-07', '1' , FALSE, '15.04');
 INSERT INTO animals (names, date_of_birth, escape_attempts, neutered, weight_kg)
 VALUES ('Devimon', '2017-05-12', '5' , TRUE, '11');
 
--- Quest Querries,
+-- -- Quest Querries,
 
-SELECT * from animals where names LIKE '%mon';
-SELECT names from animals where date_of_birth  BETWEEN '2016-01-01' AND '2019-12-31';
-SELECT names from animals where escape_attempts < 3 AND neutered =true;
-SELECT date_of_birth from animals where names='Agumon' OR names='Pikachu';
-SELECT names,escape_attempts from animals where weight_kg > 10.5;
-SELECT * from animals where neutered =true;
-SELECT * from animals where names!='Gabumon.' ;
-SELECT * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
-
-
--- Updates
-
--- UPDATE animals SET escape_attempts =2 WHERE id = 2;
--- UPDATE animals SET names = 'Gabumon' WHERE weight_kg = 8;
-
+-- SELECT * from animals where names LIKE '%mon';
+-- SELECT names from animals where date_of_birth  BETWEEN '2016-01-01' AND '2019-12-31';
+-- SELECT names from animals where escape_attempts < 3 AND neutered =true;
+-- SELECT date_of_birth from animals where names='Agumon' OR names='Pikachu';
+-- SELECT names,escape_attempts from animals where weight_kg > 10.5;
+-- SELECT * from animals where neutered =true;
+-- SELECT * from animals where names!='Gabumon.' ;
+-- SELECT * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
 
 -- -- Create column called species
 
-ALTER TABLE animals ADD species VARCHAR(40);
+-- ALTER TABLE animals ADD species VARCHAR(40);
 
 -- add DATA
 
@@ -71,19 +64,16 @@ VALUES (' Blossom', '1998-10-13', '3' , TRUE, '17');
 INSERT INTO animals ( names, date_of_birth, escape_attempts, neutered, weight_kg)
 VALUES (' Ditto', '2022-04-014', '4' , TRUE, '22');
 
+-- --  Start the transaction for the clinic
 
+-- BEGIN;
+-- UPDATE animals SET species = 'unspecified';
+-- ROLLBACK;
 
---  Start the transaction for the clinic
+-- -- MUltiple Tables
 
-BEGIN;
-UPDATE animals SET species = 'unspecified';
-ROLLBACK;
-
-
--- MUltiple Tables
-
--- Remove species from animal table
-ALTER TABLE animals DROP species;
+-- -- Remove species from animal table
+-- ALTER TABLE animals DROP species;
 
 -- Create  owners table
 DROP TABLE IF EXISTS owners;
@@ -114,6 +104,33 @@ CREATE TABLE species (
 
 INSERT INTO species(names) VALUES('Pokemon');
 INSERT INTO species(names) VALUES('Digimon');
+
+-- add species and owner to animal table,
+
+ALTER TABLE animals ADD COLUMN species_id INT;
+ALTER TABLE animals ADD COLUMN owners_id INT;
+
+-- reference owner and species into animals
+
+ALTER TABLE animals ADD CONSTRAINT fk_species FOREIGN KEY (species_id) REFERENCES species(id);
+ALTER TABLE animals ADD CONSTRAINT fk_owners FOREIGN KEY (owners_id) REFERENCES owners(id);
+
+-- Modify your inserted animals so it includes the species_id value
+
+UPDATE animals SET species_id =1 WHERE species_id IS NULL; 
+UPDATE animals SET species_id = 2 WHERE names LIKE '%mon';
+
+-- Modify your inserted animals to include owner information (owner_id
+--  Sam Smith owns Agumon.
+UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Sam Smith') WHERE names = 'Agumon';
+-- Jennifer Orwell owns Gabumon and Pikachu.
+UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Jenifer Orwell') WHERE names IN ('Gabumon', 'Pikacu');
+-- Bob owns Devimon and Plantmon.
+UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Bob') WHERE names IN ('Devimon', 'Plantmon');
+-- Melody Pond owns Charmander, Squirtle, and Blossom.
+UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Melody Pond') WHERE names IN ('Charmander', 'Squirtle', 'Blossmon');
+-- Dean Winchester owns Angemon and Boarmon.
+UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Dean Winchester') WHERE names IN ('Angemon', 'Boarmon');
 
 
 
