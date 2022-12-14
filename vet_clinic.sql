@@ -120,7 +120,7 @@ ALTER TABLE animals ADD CONSTRAINT fk_owners FOREIGN KEY (owners_id) REFERENCES 
 UPDATE animals SET species_id =1 WHERE species_id IS NULL; 
 UPDATE animals SET species_id = 2 WHERE names LIKE '%mon';
 
--- Modify your inserted animals to include owner information (owner_id
+-- Modify your inserted animals to include owner information (owner_id)
 --  Sam Smith owns Agumon.
 UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Sam Smith') WHERE names = 'Agumon';
 -- Jennifer Orwell owns Gabumon and Pikachu.
@@ -132,6 +132,25 @@ UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Melody 
 -- Dean Winchester owns Angemon and Boarmon.
 UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Dean Winchester') WHERE names IN ('Angemon', 'Boarmon');
 
+-- Write queries (using JOIN) to answer the following questions
 
+-- What animals belong to Melody Pond?
+SELECT names, full_name FROM animals INNER JOIN owners ON animals.owners_id = owners.id WHERE owners.full_name = 'Melody Pond';
 
+-- List of all animals that are pokemon (their type is Pokemon).
+SELECT animals.names, species.names FROM animals INNER JOIN species ON animals.species_id = species.id WHERE species.names = 'Pokemon';
 
+-- List all owners and their animals, remember to include those that don't own any animal.
+SELECT owners.full_name, animals.names FROM owners LEFT JOIN animals ON owners.id = animals.owners_id;
+
+-- How many animals are there per species?
+SELECT COUNT(animals.names), species.names FROM animals INNER JOIN species ON animals.species_id = species.id GROUP BY species.names;
+
+-- List all Digimon owned by Jennifer Orwell
+SELECT owners.full_name, animals.names, species.names FROM owners INNER JOIN animals ON owners.id = animals.owners_id INNER JOIN species ON species.id = animals.species_id WHERE species.names = 'Digimon' AND owners.full_name = 'Jennifer Orwell';
+
+-- List all animals owned by Dean Winchester that haven't tried to escape.
+SELECT owners.full_name, animals.names, animals.escape_attempts FROM owners INNER JOIN animals ON owners.id = animals.owners_id WHERE owners.full_name = 'Dean Winchester' AND animals.escape_attempts = 0;
+
+-- Who owns the most animals?
+SELECT owners.full_name, COUNT(*) FROM owners INNER JOIN animals ON owners.id = animals.owners_id GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
