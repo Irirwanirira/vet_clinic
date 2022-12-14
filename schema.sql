@@ -2,7 +2,7 @@
 
 CREATE TABLE animals (
     id INT GENERATED ALWAYS AS IDENTITY,
-    names VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     date_of_birth DATE,
     escape_attempts INTEGER,
     neutered BOOLEAN,
@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS species;
 
 CREATE TABLE species (
     id INT GENERATED ALWAYS AS IDENTITY,
-    names CHAR(100),
+    name CHAR(100),
     PRIMARY KEY (id)
 );
 
