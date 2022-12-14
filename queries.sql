@@ -30,22 +30,27 @@ SELECT * from animals where weight_kg>=10.4 AND weight_kg<=17.3;
 -- Inside a transaction update the animals table by setting the species column to unspecified.
 BEGIN;
 UPDATE animals SET species = 'unspecified';
+SELECT species FROM animals;
 ROLLBACK;
 
 -- Update the animals table by setting the species column to digimon for all animals that have a name ending in mon.
 -- Update the animals table by setting the species column to pokemon for all animals that don't have species already set.
 BEGIN;
 UPDATE animals SET species = 'digimon' WHERE names LIKE '%mon';
+SELECT species FROM animals;
 UPDATE animals SET species = 'pokemon' WHERE species IS NULL ;
+SELECT species FROM animals;
 COMMIT;
+SELECT species FROM animals;
 
 
 -- delete all records in the animals table, then roll back the transaction.
 -- After the rollback verify if all records in the animals table still exists. 
 BEGIN;
 DELETE FROM animals;
+SELECT * FROM animals;
 ROLLBACK;
-
+SELECT * FROM animals;
 
 -- Delete all animals born after Jan 1st, 2022.
 BEGIN;

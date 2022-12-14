@@ -11,5 +11,5 @@ CREATE TABLE animals (
 );
 
 -- Create column species
-ALTER TABLE animals ADD species TEXT;
+ALTER TABLE animals ADD species VARCHAR(40);
 
