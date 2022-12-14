@@ -1,7 +1,7 @@
 /* Database schema to keep the structure of entire database. */
 
 CREATE TABLE animals (
-    id INT,
+    id INT AUTO 
     names VARCHAR(100) NOT NULL,
     date_of_birth DATE,
     escape_attempts INTEGER,
@@ -12,4 +12,8 @@ CREATE TABLE animals (
 
 -- Create column species
 ALTER TABLE animals ADD species VARCHAR(40);
+
+DROP TABLE IF EXISTS owners
+
+CREATE  TABLE 
 
