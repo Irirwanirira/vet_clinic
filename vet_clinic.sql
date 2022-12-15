@@ -1,5 +1,5 @@
 -- vet database with a table of animal and id as a PRIMARY KEY
-
+-- psql --host=localhost dbname=vet_clinic --username=postgres, very useful in the terminal
 DROP TABLE IF EXISTS animals;
 
 CREATE TABLE animals (
@@ -135,26 +135,26 @@ UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Dean Wi
 
 -- Write queries (using JOIN) to answer the following questions
 
--- What animals belong to Melody Pond?
-SELECT name, full_name FROM animals INNER JOIN owners ON animals.id = owners.id WHERE owners.full_name = 'Melody Pond';
+-- -- What animals belong to Melody Pond?
+-- SELECT name, full_name FROM animals INNER JOIN owners ON animals.id = owners.id WHERE owners.full_name = 'Melody Pond';
 
--- List of all animals that are pokemon (their type is Pokemon).
-SELECT animals.name, species.name FROM animals INNER JOIN species ON animals.species_id = species.id WHERE species.name = 'Pokemon';
+-- -- List of all animals that are pokemon (their type is Pokemon).
+-- SELECT animals.name, species.name FROM animals INNER JOIN species ON animals.species_id = species.id WHERE species.name = 'Pokemon';
 
--- List all owners and their animals, remember to include those that don't own any animal.
-SELECT owners.full_name, animals.name FROM owners LEFT JOIN animals ON owners.id = animals.owners_id;
+-- -- List all owners and their animals, remember to include those that don't own any animal.
+-- SELECT owners.full_name, animals.name FROM owners LEFT JOIN animals ON owners.id = animals.owners_id;
 
--- How many animals are there per species?
-SELECT COUNT(animals.name), species.name FROM animals INNER JOIN species ON animals.species_id = species.id GROUP BY species.name;
+-- -- How many animals are there per species?
+-- SELECT COUNT(animals.name), species.name FROM animals INNER JOIN species ON animals.species_id = species.id GROUP BY species.name;
 
--- List all Digimon owned by Jennifer Orwell
-SELECT owners.full_name, animals.name, species.name FROM animals INNER JOIN owners ON animals.id = owners_id INNER JOIN species ON species.id = animals.species_id WHERE species.name = 'Digimon' AND owners.full_name = 'Jennifer Orwell';
+-- -- List all Digimon owned by Jennifer Orwell
+-- SELECT owners.full_name, animals.name, species.name FROM animals INNER JOIN owners ON animals.id = owners_id INNER JOIN species ON species.id = animals.species_id WHERE species.name = 'Digimon' AND owners.full_name = 'Jennifer Orwell';
 
--- List all animals owned by Dean Winchester that haven't tried to escape.
-SELECT owners.full_name, animals.name, animals.escape_attempts FROM animals INNER JOIN owners ON animals.id = owners.id WHERE owners.full_name = 'Dean Winchester' AND animals.escape_attempts = '0';
+-- -- List all animals owned by Dean Winchester that haven't tried to escape.
+-- SELECT owners.full_name, animals.name, animals.escape_attempts FROM animals INNER JOIN owners ON animals.id = owners.id WHERE owners.full_name = 'Dean Winchester' AND animals.escape_attempts = '0';
 
--- Who owns the most animals?
-SELECT owners.full_name, COUNT(*) FROM animals INNER JOIN owners ON animals.id = owners.id GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
+-- -- Who owns the most animals?
+-- SELECT owners.full_name, COUNT(*) FROM animals INNER JOIN owners ON animals.id = owners.id GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
 
 
 
@@ -168,4 +168,26 @@ CREATE TABLE vets (
     age INT,
     date_of_graduation DATE,
     PRIMARY KEY (id)
-)
+);
+
+INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets William Tatcher', 45, '2000-04-23');
+INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Maisy Smith', 26, '2019-01-17');
+INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Stephanie Mendez', 64, '1981-05-04');
+INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Jack Harkness', 38, '2008-06-08');
+
+-- specialisation table
+CREATE TABLE specialization (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    vets_name CHAR(100),
+    species_name CHAR(100),
+    PRIMARY KEY (id)
+);
+
+-- visits table
+CREATE TABLE visits (
+    id INT ALWAYS GENERATED AS IDENTITY,
+    animals_name CHAR(100),
+    vets_name CHAR(100),
+    Date_of_visit DATE,
+    PRIMARY KEY(id)
+);
