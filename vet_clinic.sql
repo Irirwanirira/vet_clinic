@@ -157,8 +157,6 @@ UPDATE animals SET owners_id = (SELECT id FROM owners WHERE full_name = 'Dean Wi
 -- SELECT owners.full_name, COUNT(*) FROM animals INNER JOIN owners ON animals.id = owners.id GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
 
 
-
-
 -- create vets table
 DROP TABLE IF EXISTS vets;
 
@@ -176,6 +174,7 @@ INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Stephanie Mendez', 
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Jack Harkness', 38, '2008-06-08');
 
 -- specialisation table
+DROP TABLE IF EXISTS specializations;
 CREATE TABLE specializations (
     id INT GENERATED ALWAYS AS IDENTITY,
     vets_name CHAR(100),
@@ -189,6 +188,7 @@ VALUES('William Tatcher','Pokemon'),
 
 
 -- visits table
+DROP TABLE IF EXISTS visits;
 CREATE TABLE visits (
     id INT GENERATED ALWAYS AS IDENTITY,
     animals_name CHAR(100),
@@ -197,7 +197,7 @@ CREATE TABLE visits (
     PRIMARY KEY(id)
 );
 
-INSERT INTO visits(animals_name,vets_name,date_of_visit) 
+INSERT INTO visits (animals_name,vets_name,date_of_visit)
 VALUES('Agumon','William Tatcher','2020-05-25'),
 ('Agumon','Stephanie Mendez','2020-07-22'),
 ('Gabumon','Jack Harkness','2021-02-02'),
@@ -217,3 +217,4 @@ VALUES('Agumon','William Tatcher','2020-05-25'),
 ('Boarmon','Maisy Smith','2020-08-03'),
 ('Blossom','Stephanie Mendaz','2020-05-24'),
 ('Blossom','Willia, Tatcher','2021-01-11');
+
