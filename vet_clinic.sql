@@ -155,3 +155,17 @@ SELECT owners.full_name, animals.name, animals.escape_attempts FROM animals INNE
 
 -- Who owns the most animals?
 SELECT owners.full_name, COUNT(*) FROM animals INNER JOIN owners ON animals.id = owners.id GROUP BY owners.full_name ORDER BY count DESC LIMIT 1;
+
+
+
+
+-- create vets table
+DROP TABLE IF EXISTS vets;
+
+CREATE TABLE vets (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    name CHAR(100),
+    age INT,
+    date_of_graduation DATE,
+    PRIMARY KEY (id)
+)
