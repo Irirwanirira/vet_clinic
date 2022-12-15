@@ -176,18 +176,44 @@ INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Stephanie Mendez', 
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Jack Harkness', 38, '2008-06-08');
 
 -- specialisation table
-CREATE TABLE specialization (
+CREATE TABLE specializations (
     id INT GENERATED ALWAYS AS IDENTITY,
     vets_name CHAR(100),
     species_name CHAR(100),
     PRIMARY KEY (id)
 );
+INSERT INTO specializations(vets_name,species_name) 
+VALUES('William Tatcher','Pokemon'),
+('Stephanie Mendez','Digimon,Pokemon'),
+('Jack Harkness','Digimon');
+
 
 -- visits table
 CREATE TABLE visits (
-    id INT ALWAYS GENERATED AS IDENTITY,
+    id INT GENERATED ALWAYS AS IDENTITY,
     animals_name CHAR(100),
     vets_name CHAR(100),
-    Date_of_visit DATE,
+    date_of_visit DATE,
     PRIMARY KEY(id)
 );
+
+INSERT INTO visits(animals_name,vets_name,date_of_visit) 
+VALUES('Agumon','William Tatcher','2020-05-25'),
+('Agumon','Stephanie Mendez','2020-07-22'),
+('Gabumon','Jack Harkness','2021-02-02'),
+('Pikachu','Maisy Smith','2020-01-05'),
+('Pikachu','Maisy Smith','2020-03-08'),('Pikachu','Maisy Smith','2020-05-14'),
+('Devimon','Stephanie Mendez','2021-05-04'),
+('Charmander','Jack Harkness','2021-02-24'),
+('Plantmon','Maisy Smith','2019-12-21'),
+('Plantmon','William Tatcher','2020-04-10'),
+('Squirtle','Stephanie Mendez','2020-09-29'),
+('Angemon','Jack Harkness','2020-10-03'),
+('Angemon','Jack Harkness','2020-11-04'),
+('Boarmon','Maisy Smith','2019-01-24'),
+('Boarmon','Maisy Smith','2019-05-15'),
+('Boarmon','Maisy Smith','2020-02-27'),
+('Boarmon','Maisy Smith','2019-01-24'),
+('Boarmon','Maisy Smith','2020-08-03'),
+('Blossom','Stephanie Mendaz','2020-05-24'),
+('Blossom','Willia, Tatcher','2021-01-11');
