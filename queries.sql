@@ -119,4 +119,4 @@ select a.*,vets.*,v.date_of_visit from animals AS a INNER JOIN visits as v ON v.
 select vets.name,COUNT(v.id) as visit,COUNT(species.name) as specialization from vets LEFT JOIN specializations as s ON vets.id=s.id LEFT JOIN species ON species.id=s.id INNER JOIN visits  as v ON v.id =vets.id GROUP BY vets.name ORDER BY visit DESC LIMIT 1;
 
 -- What speciality should Maisy Smith consider getting? Look for the species she gets the most.
-select vets.name, species.name from vets INNER JOIN specializations ON as s vets.id != s.id INNER JOIN species ON species.id != s.id where vets.name='Maisy Smith';
+select vets.name, species.name from vets INNER JOIN specializations as s  ON vets.id != s.id INNER JOIN species ON species.id != s.id where vets.name='Maisy Smith';
