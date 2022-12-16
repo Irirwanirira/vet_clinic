@@ -249,4 +249,4 @@ select a.*,vets.*,v.date_of_visit from animals AS a INNER JOIN visits as v ON v.
 
 
 -- How many visits were with a vet that did not specialize in that animal's species?
-select vets.name,COUNT(v.id) as visit,COUNT(species.name) as specialization from vets LEFT JOIN specializations ON vets.id=specializations.vets_id LEFT JOIN species ON species.id=specializations.species_id INNER JOIN visits ON visits.vets_id =vets.id GROUP BY vets.name ORDER BY visit DESC LIMIT 1;
+select vets.name,COUNT(v.id) as visit,COUNT(species.name) as specialization from vets LEFT JOIN specializations as s ON vets.id=s.id LEFT JOIN species ON species.id=s.id INNER JOIN visits  as v ON v.id =vets.id GROUP BY vets.name ORDER BY visit DESC LIMIT 1;
