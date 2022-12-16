@@ -173,6 +173,16 @@ INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Maisy Smith', 26, '
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Stephanie Mendez', 64, '1981-05-04');
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Jack Harkness', 38, '2008-06-08');
 
+-- ADD VISITS AND SPECIALIZATION INTO animals table
+
+ALTER TABLE animals ADD COLUMN specialization_id INT;
+ALTER TABLE animals ADD COLUMN visits_id INT;
+
+-- refference them in animlas
+
+ALTER TABLE animals ADD CONSTRAINT fk_specializations FOREIGN KEY (specialization_id) REFERENCES specializations(id);
+ALTER TABLE animals ADD CONSTRAINT fk_visits FOREIGN KEY (visits_id) REFERENCES visits(id);
+
 -- specialisation table
 DROP TABLE IF EXISTS specializations;
 CREATE TABLE specializations (
@@ -181,6 +191,7 @@ CREATE TABLE specializations (
     species_name CHAR(100),
     PRIMARY KEY (id)
 );
+
 INSERT INTO specializations(vets_name,species_name) 
 VALUES('William Tatcher','Pokemon'),
 ('Stephanie Mendez','Digimon,Pokemon'),
@@ -218,3 +229,24 @@ VALUES('Agumon','William Tatcher','2020-05-25'),
 ('Blossom','Stephanie Mendaz','2020-05-24'),
 ('Blossom','Willia, Tatcher','2021-01-11');
 
+-- Further querries
+
+-- Who was the last animal seen by William Tatcher?
+SELECT a.name FROM animals AS a INNER JOIN visits AS v ON a.id = v.id INNER JOIN specializations AS s ON s.id = v.id WHERE s.vets_name ='William Tatcher' ORDER BY v.date_of_visit DESC LIMIT 1;
+-- How many different animals did Stephanie Mendez see?
+SELECT COUNT(*) FROM animals AS a INNER JOIN specializations AS s ON a.id = s.id WHERE s.vets_name = 'Stephanie Mendez';
+-- List all vets and their specialties, including vets with no specialties.
+SELECT *  FROM specializations AS s INNER JOIN visits AS v ON s.id = v.id WHERE s.species_name IN ('Pokemon', 'Digimon');
+-- List all animals that visited Stephanie Mendez between April 1st and August 30th, 2020.
+SELECT a.name FROM animals AS a INNER JOIN visits AS v ON a.id = v.id INNER JOIN specializations AS s ON v.id = s.id WHERE s.vets_name = 'Stephanie Mendez' ORDER BY v.date_of_visit BETWEEN '2020-04-01' AND '2020-08-30' ;
+-- What animal has the most visits to vets?
+select a.name, COUNT(*) as visited from animals AS a INNER JOIN  visits AS v ON a.id = v.id INNER JOIN vets ON vets.id=v.id GROUP BY a.name ORDER BY visited DESC LIMIT 1;
+--  Who was Maisy Smith's first visit?
+select a.name, v.date_of_visit, vets_name from animals as a INNER JOIN visits as v on a.id = v.id INNER JOIN vets on vets.id = v.id where vets.name = 'Maisy Smith' ORDER BY date_of_visit LIMIT 1;
+
+-- Details for most recent visit: animal information, vet information, and date of visit.
+select a.*,vets.*,v.date_of_visit from animals AS a INNER JOIN visits as v ON v.id=a.id INNER JOIN vets ON vets.id=v.id ORDER BY date_of_visit DESC LIMIT 1;
+
+
+-- How many visits were with a vet that did not specialize in that animal's species?
+select vets.name,COUNT(v.id) as visit,COUNT(species.name) as specialization from vets LEFT JOIN specializations ON vets.id=specializations.vets_id LEFT JOIN species ON species.id=specializations.species_id INNER JOIN visits ON visits.vets_id =vets.id GROUP BY vets.name ORDER BY visit DESC LIMIT 1;
