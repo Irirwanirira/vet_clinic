@@ -65,33 +65,26 @@ ALTER TABLE animals ADD CONSTRAINT fk_specializations FOREIGN KEY (specializatio
 ALTER TABLE animals ADD CONSTRAINT fk_visits FOREIGN KEY (visits_id) REFERENCES visits(id);
 
 -- specialisation table
-DROP TABLE IF EXISTS specializations;
+DROP TABLE IF EXISTS specializations CASCADE;
 CREATE TABLE specializations (
-    id INT GENERATED ALWAYS AS IDENTITY,
-    vets_name CHAR(100),
-    species_name CHAR(100),
-    PRIMARY KEY (id)
+    species_id int REFERENCES species (id),
+    vets_id int REFERENCES vets (id),
+    PRIMARY KEY (species_id, vets_id)
 );
 
-INSERT INTO specializations(vets_name,species_name) 
-VALUES('William Tatcher','Pokemon'),
-('Stephanie Mendez','Digimon,Pokemon'),
-('Jack Harkness','Digimon');
-
-
 -- visits table
-DROP TABLE IF EXISTS visits;
--- CREATE TABLE visits (
---     id INT GENERATED ALWAYS AS IDENTITY,
---     animals_name CHAR(100),
---     vets_name CHAR(100),
---     date_of_visit DATE,
---     PRIMARY KEY(id)
--- );
 
+
+DROP TABLE IF EXISTS visits CASCADE;
 CREATE TABLE visits (
     animals_id int REFERENCES animals (id),
     vets_id int REFERENCES vets (id),
     visit_date date,
     PRIMARY KEY (animals_id, vets_id, visit_date)
+   
 );
+
+-- Add an email column to your owners table
+ALTER TABLE owners ADD COLUMN email VARCHAR(120);
+
+CREATE INDEX audit_visits ON visits (animals_id, vets_id);

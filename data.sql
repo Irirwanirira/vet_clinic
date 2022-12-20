@@ -70,32 +70,36 @@ INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Maisy Smith', 26, '
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Stephanie Mendez', 64, '1981-05-04');
 INSERT INTO vets(name, age, date_of_graduation) VALUES('Vets Jack Harkness', 38, '2008-06-08');
 
--- INSERT INTO specializations(vets_name,species_name) 
--- VALUES('William Tatcher','Pokemon'),
--- ('Stephanie Mendez','Digimon,Pokemon'),
--- ('Jack Harkness','Digimon');
+INSERT INTO specializations (species_id, vets_id) VALUES (1,1),
+(1,3),
+(2,3),
+(2,4);
 
+INSERT INTO visits (animals_id, vets_id, visit_date) VALUES (1, 1, '2020-05-24'),
+(1, 3, '2020-07-22'),
+(2, 4, '2021-02-02'),
+(3, 2, '2020-01-05'),
+(3, 2, '2020-03-08'),
+(3, 2, '2020-05-14'),
+(4, 3, '2021-05-04'),
+(8, 4, '2021-02-24'),
+(9, 2, '2019-12-21'),
+(9, 1, '2020-08-10'),
+(9, 2, '2021-04-07'),
+(10, 3, '2019-09-29'),
+(11, 4, '2020-10-03'),
+(11, 4, '2020-11-04'),
+(5, 2, '2019-01-24'),
+(5, 2, '2019-05-15'),
+(5, 2, '2020-02-27'),
+(5, 2, '2020-08-03'),
+(6, 3, '2020-05-24'),
+(6, 1, '2021-01-11');
 
+-- This will add 3.594.280 visits considering you have 10 animals, 4 vets, and it will use around ~87.000 timestamps (~4min approx.)
 
+INSERT INTO visits (animals_id, vets_id, visit_date) SELECT * FROM (SELECT id FROM animals) animal_ids, (SELECT id FROM vets) vets_ids, generate_series('1980-01-01'::timestamp, '2021-01-01', '4 hours') visit_timestamp;
 
+-- This will add 2.500.000 owners with full_name = 'Owner <X>' and email = 'owner_<X>@email.com' (~2min approx.)
 
--- INSERT INTO visits (animals_name,vets_name,date_of_visit)
--- VALUES('Agumon','William Tatcher','2020-05-25'),
--- ('Agumon','Stephanie Mendez','2020-07-22'),
--- ('Gabumon','Jack Harkness','2021-02-02'),
--- ('Pikachu','Maisy Smith','2020-01-05'),
--- ('Pikachu','Maisy Smith','2020-03-08'),('Pikachu','Maisy Smith','2020-05-14'),
--- ('Devimon','Stephanie Mendez','2021-05-04'),
--- ('Charmander','Jack Harkness','2021-02-24'),
--- ('Plantmon','Maisy Smith','2019-12-21'),
--- ('Plantmon','William Tatcher','2020-04-10'),
--- ('Squirtle','Stephanie Mendez','2020-09-29'),
--- ('Angemon','Jack Harkness','2020-10-03'),
--- ('Angemon','Jack Harkness','2020-11-04'),
--- ('Boarmon','Maisy Smith','2019-01-24'),
--- ('Boarmon','Maisy Smith','2019-05-15'),
--- ('Boarmon','Maisy Smith','2020-02-27'),
--- ('Boarmon','Maisy Smith','2019-01-24'),
--- ('Boarmon','Maisy Smith','2020-08-03'),
--- ('Blossom','Stephanie Mendaz','2020-05-24'),
--- ('Blossom','Willia, Tatcher','2021-01-11');
+insert into owners (full_name, email) select 'Owner ' || generate_series(1,2500000), 'owner_' || generate_series(1,2500000) || '@mail.com';
