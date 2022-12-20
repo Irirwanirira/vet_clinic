@@ -81,31 +81,17 @@ VALUES('William Tatcher','Pokemon'),
 
 -- visits table
 DROP TABLE IF EXISTS visits;
-CREATE TABLE visits (
-    id INT GENERATED ALWAYS AS IDENTITY,
-    animals_name CHAR(100),
-    vets_name CHAR(100),
-    date_of_visit DATE,
-    PRIMARY KEY(id)
-);
+-- CREATE TABLE visits (
+--     id INT GENERATED ALWAYS AS IDENTITY,
+--     animals_name CHAR(100),
+--     vets_name CHAR(100),
+--     date_of_visit DATE,
+--     PRIMARY KEY(id)
+-- );
 
-INSERT INTO visits (animals_name,vets_name,date_of_visit)
-VALUES('Agumon','William Tatcher','2020-05-25'),
-('Agumon','Stephanie Mendez','2020-07-22'),
-('Gabumon','Jack Harkness','2021-02-02'),
-('Pikachu','Maisy Smith','2020-01-05'),
-('Pikachu','Maisy Smith','2020-03-08'),('Pikachu','Maisy Smith','2020-05-14'),
-('Devimon','Stephanie Mendez','2021-05-04'),
-('Charmander','Jack Harkness','2021-02-24'),
-('Plantmon','Maisy Smith','2019-12-21'),
-('Plantmon','William Tatcher','2020-04-10'),
-('Squirtle','Stephanie Mendez','2020-09-29'),
-('Angemon','Jack Harkness','2020-10-03'),
-('Angemon','Jack Harkness','2020-11-04'),
-('Boarmon','Maisy Smith','2019-01-24'),
-('Boarmon','Maisy Smith','2019-05-15'),
-('Boarmon','Maisy Smith','2020-02-27'),
-('Boarmon','Maisy Smith','2019-01-24'),
-('Boarmon','Maisy Smith','2020-08-03'),
-('Blossom','Stephanie Mendaz','2020-05-24'),
-('Blossom','Willia, Tatcher','2021-01-11');
+CREATE TABLE visits (
+    animals_id int REFERENCES animals (id),
+    vets_id int REFERENCES vets (id),
+    visit_date date,
+    PRIMARY KEY (animals_id, vets_id, visit_date)
+);
