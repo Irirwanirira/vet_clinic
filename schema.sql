@@ -74,7 +74,7 @@ CREATE TABLE specializations (
 
 -- visits table
 
-
+--  we use cascade to delete a column which has a relatiojship eith other talbes in perfoming querries.
 DROP TABLE IF EXISTS visits CASCADE;
 CREATE TABLE visits (
     animals_id int REFERENCES animals (id),
